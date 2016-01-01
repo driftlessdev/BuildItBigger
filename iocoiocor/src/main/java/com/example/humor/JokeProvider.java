@@ -1,4 +1,4 @@
-package com.example;
+package com.example.humor;
 
 public class JokeProvider {
     public String getJoke(){
