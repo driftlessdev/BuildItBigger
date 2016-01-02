@@ -1,13 +1,32 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.testinprod.courtjester.JokeDisplay;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements JokeFetchTask.JokeCallback {
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public void onJokeLoaded(String joke, Exception error) {
+        if(error == null)
+        {
+            Intent intent = JokeDisplay.buildIntent(this, joke);
+            startActivity(intent);
+        }
+        else
+        {
+            Log.e(LOG_TAG, "Error: " + error.getMessage());
+            error.printStackTrace();
+            Toast.makeText(this, "Problem loading joke: " + error.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
+
         new JokeFetchTask().execute(this);
     }
 

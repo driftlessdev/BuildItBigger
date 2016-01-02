@@ -1,12 +1,9 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.testinprod.courtjester.JokeDisplay;
 import com.testinprod.jokedirectory.backend.myApi.MyApi;
 
 import java.io.IOException;
@@ -14,12 +11,13 @@ import java.io.IOException;
 /**
  * Created by Tim on 1/1/2016.
  */
-public class JokeFetchTask extends AsyncTask<Context, Void, String> {
+public class JokeFetchTask extends AsyncTask<JokeFetchTask.JokeCallback, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
+    private Exception mError;
+    private JokeCallback mCallback;
 
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(JokeCallback... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://moonlit-creek-117505.appspot.com/_ah/api/");
@@ -28,18 +26,25 @@ public class JokeFetchTask extends AsyncTask<Context, Void, String> {
             myApiService = builder.build();
         }
 
-        context = params[0];
+        mCallback = params[0];
 
         try {
             return myApiService.tellMeAJoke().execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            mError = e;
+            return null;
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intent = JokeDisplay.buildIntent(context, result);
-        context.startActivity(intent);
+        if(mCallback != null)
+        {
+            mCallback.onJokeLoaded(result, mError);
+        }
+    }
+
+    public interface JokeCallback{
+        void onJokeLoaded(String joke, Exception error);
     }
 }
