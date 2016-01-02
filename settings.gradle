@@ -1,1 +1,1 @@
-include ':app', ':iocoIocor'
+include ':app', ':iocoIocor', ':courtJester'
