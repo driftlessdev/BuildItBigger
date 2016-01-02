@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class JokeDisplay extends AppCompatActivity {
     public static final String EXTRA_JOKE = JokeDisplay.class.getSimpleName() + ".JOKE";
@@ -24,7 +25,9 @@ public class JokeDisplay extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        String joke = getIntent().getExtras().getString(EXTRA_JOKE);
+        TextView tvJoke = (TextView) findViewById(R.id.tvJoke);
+        tvJoke.setText(joke);
     }
 
     @Override
