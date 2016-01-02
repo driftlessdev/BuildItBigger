@@ -1,5 +1,7 @@
 package com.testinprod.courtjester;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,13 +9,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class JokeDisplay extends AppCompatActivity {
+    public static final String EXTRA_JOKE = JokeDisplay.class.getSimpleName() + ".JOKE";
 
-    @Override
+    public static Intent buildIntent(Context context, String jokeForDisplay)
+    {
+        Intent intent = new Intent(context, JokeDisplay.class);
+        intent.putExtra(EXTRA_JOKE, jokeForDisplay);
+        return intent;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_display);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
     }
 

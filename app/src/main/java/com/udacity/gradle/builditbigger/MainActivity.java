@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.humor.JokeProvider;
 import com.testinprod.courtjester.JokeDisplay;
 
 
@@ -42,7 +43,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        Intent intent = new Intent(this, JokeDisplay.class);
+        JokeProvider jokeProvider = new JokeProvider();
+        Intent intent = JokeDisplay.buildIntent(this, jokeProvider.getJoke());
         startActivity(intent);
     }
 
