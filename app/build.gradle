@@ -25,4 +25,5 @@ dependencies {
     // Added for AdMob
     compile 'com.google.android.gms:play-services:7.3.0'
     compile project(":iocoIocor");
+    compile project(":courtJester");
 }
