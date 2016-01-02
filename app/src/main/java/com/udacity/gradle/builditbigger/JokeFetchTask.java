@@ -1,11 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.testinprod.courtjester.JokeDisplay;
 import com.testinprod.jokedirectory.backend.myApi.MyApi;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class JokeFetchTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        Intent intent = JokeDisplay.buildIntent(context, result);
+        context.startActivity(intent);
     }
 }
